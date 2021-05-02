@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Streamer
+Exec=python3 /home/streamer/Documents/streamer/main.py
+Hidden=false
+NoDisplay=false
+Terminal=true
+X-GNOME-Autostart-enabled=true

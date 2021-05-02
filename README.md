@@ -8,7 +8,7 @@ Small project to automate the streaming to youtube. It uses the OBS websocket to
 1. Install drivers for the video capture card ([Blackmagic](https://www.blackmagicdesign.com/support/family/capture-and-playback) in my case)
 1. Install [obs-websockets](https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/)
 1. Install [https://wiki.debian.org/acpid](https://wiki.debian.org/acpid) (used for interacting with the power button)
-
+1. Copy the files of `localfiles/autostart` to `~/.config/autostart` on the machine.
 ## Quick overview
 This project automatically starts OBS on startup, then the main script is called. This will try to interact with OBS and start the stream. YouTube should be configured to automatically go live when it receives signal. 
 
