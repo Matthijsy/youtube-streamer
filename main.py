@@ -17,6 +17,7 @@ def connect_obs():
     for i in range(3):
         try:
             obs.connect()
+            obs.audio_fade_out(settings.SERVICE_AUDIO, 0)
             lcd.print("OBS started..\n Press to go live")
             return True
         except ConnectionFailure as e:
@@ -28,7 +29,9 @@ def connect_obs():
 
 
 def start_stream():
-    if obs.start_stream() and obs.set_scene(settings.PRE_SERVICE_SCENE):
+    if obs.set_scene(settings.PRE_SERVICE_SCENE) and \
+            obs.audio_fade_in(settings.PRE_SERVICE_AUDIO) and \
+            obs.start_stream():
         lcd.print("Current->Pre-service \n Next->Live video")
     else:
         lcd.print("Failed to start OBS")
@@ -36,7 +39,9 @@ def start_stream():
 
 
 def start_live_video():
-    if obs.set_scene(settings.SERVICE_SCENE):
+    if obs.audio_fade_out(settings.PRE_SERVICE_AUDIO) and \
+            obs.set_scene(settings.SERVICE_SCENE) and \
+            obs.audio_fade_in(settings.SERVICE_AUDIO):
         lcd.print("Current->Live video\n Next->End ")
     else:
         lcd.print("Failed to change scene")

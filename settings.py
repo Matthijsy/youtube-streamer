@@ -4,3 +4,6 @@ PASSWORD = "secret"
 
 PRE_SERVICE_SCENE = 'Pre-Service'
 SERVICE_SCENE = 'Live'
+
+PRE_SERVICE_AUDIO = ''
+SERVICE_AUDIO = ''
