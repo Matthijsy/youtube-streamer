@@ -39,9 +39,12 @@ class OBS:
 
     def audio_fade_out(self, name, transition_time=2):
         volume = self.get_audio_volume(name)
-        steps = volume / transition_time / 10
+        if transition_time > 0:
+            steps = volume / transition_time / 10
+        else:
+            steps = volume
 
-        for i in range(transition_time * 10):
+        for i in range((transition_time * 10) + 1):
             res_volume = volume - ((i + 1) * steps)
             self._call(requests.SetVolume(name, res_volume, False))
             sleep(0.1)
@@ -53,9 +56,12 @@ class OBS:
             return False
 
         volume = self.get_audio_volume(name)
-        steps = (1 - volume) / transition_time / 10
+        if transition_time > 0:
+            steps = (1 - volume) / transition_time / 10
+        else:
+            steps = volume
 
-        for i in range(transition_time * 10):
+        for i in range((transition_time * 10) + 1):
             res_volume = volume + ((i + 1) * steps)
             self._call(requests.SetVolume(name, res_volume, False))
             sleep(0.1)
