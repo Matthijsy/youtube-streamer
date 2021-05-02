@@ -29,6 +29,7 @@ def connect_obs():
 
 
 def start_stream():
+    lcd.print("Starting stream...")
     if obs.set_scene(settings.PRE_SERVICE_SCENE) and \
             obs.audio_fade_in(settings.PRE_SERVICE_AUDIO) and \
             obs.start_stream():
@@ -39,6 +40,7 @@ def start_stream():
 
 
 def start_live_video():
+    lcd.print("Starting live video...")
     if obs.audio_fade_out(settings.PRE_SERVICE_AUDIO) and \
             obs.set_scene(settings.SERVICE_SCENE) and \
             obs.audio_fade_in(settings.SERVICE_AUDIO):
