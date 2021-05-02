@@ -1,0 +1,3 @@
+obs-websocket-py
+python-dateutil
+pyserial
