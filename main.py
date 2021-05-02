@@ -1,3 +1,4 @@
+import os
 import socket
 from time import sleep
 
@@ -40,7 +41,7 @@ def start_stream():
 
 
 def start_live_video():
-    lcd.print("Starting live video...")
+    lcd.print("Starting live video")
     if obs.audio_fade_out(settings.PRE_SERVICE_AUDIO) and \
             obs.set_scene(settings.SERVICE_SCENE) and \
             obs.audio_fade_in(settings.SERVICE_AUDIO):
@@ -77,4 +78,4 @@ if not obs.stop_stream():
 
 obs.disconnect()
 lcd.clear()
-# os.system("sudo shutdown now")
+os.system("sudo shutdown now")
