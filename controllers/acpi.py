@@ -13,8 +13,6 @@ class ACPI:
         self.s.connect('/var/run/acpid.socket')
 
     def wait_power_button(self, timeout=None):
-        input('enter...')
-        return
         self.s.settimeout(timeout)
         while True:
             event = self.s.recv(4096).decode('utf-8').split(' ')
