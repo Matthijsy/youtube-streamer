@@ -81,6 +81,8 @@ if not obs.stop_stream():
     lcd.print("Failed to stop stream")
     exit(0)
 
+lcd.print("Shutdown..")
+sleep(2)
 obs.disconnect()
 lcd.clear()
 #os.system("sudo shutdown now")
