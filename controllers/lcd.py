@@ -13,17 +13,7 @@ class LCD(object):
 
     def configure(self):
         self.connection = serial.Serial(self.device, 9600, timeout=5)
-        self.clear()
-
-    def clear(self):
-        self.execute_command(bytearray([PREFIX, 0x51]))
-        self.execute_command(bytearray([PREFIX, 0x46]))
-
-    def clear_line(self, line):
-        # Move cursors and then backspace
-        self.execute_command(bytearray([0xFE, 0x45, LINE_END[line]]))
-        for _ in range(20):
-            self.execute_command(bytearray([0xFE, 0x4E]))
+        self.print("")
 
     def print(self, string, line=None):
         if line:
@@ -41,7 +31,7 @@ class LCD(object):
             else:
                 self._set_cursor_start(0)
                 self.execute_command(self._padded_string(string).encode())
-                self.clear_line(1)
+                self.print(self._padded_string(""), 1)
                 print(string)
 
     def _padded_string(self, string):
