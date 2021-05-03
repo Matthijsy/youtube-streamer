@@ -4,6 +4,10 @@ from time import sleep
 
 
 class StreamStatus(Thread):
+    FRAME_DROP_TIME = 10  # How long to watch for the frame drop before giving an error
+    # Amount of frames to have been dropped in above setting before giving an error
+    # 30 FPS, 4 seconds
+    FRAME_DROP_WARNING = 30 * 4
 
     def __init__(self, obs, lcd):
         super().__init__()
@@ -38,13 +42,13 @@ class StreamStatus(Thread):
         if reconnecting:
             return False
 
-        df_total = self._calculate_df(dropped_frames)  # Total dropped frames of last 30 seconds
-        return df_total < 30 * 10  # If we dropped at least 10 seconds
+        df_total = self._calculate_df(dropped_frames)  # Total dropped frames of last 10 seconds
+        return df_total < self.FRAME_DROP_WARNING  # If we dropped at least 4 seconds in the last 10 seconds
 
     def _calculate_df(self, dropped_frames):
         df_size = len(self._dropped_frames)
         # If we have more than a half a minute of information
-        if df_size > 60:
+        if df_size > self.FRAME_DROP_TIME * 2:
             self._dropped_frames.pop(0)  # Pop the oldest item
 
         # Write the diff to the end of the list
