@@ -41,6 +41,7 @@ class LCD(object):
             else:
                 self._set_cursor_start(0)
                 self.execute_command(self._padded_string(string).encode())
+                self.clear_line(1)
                 print(string)
 
     def _padded_string(self, string):
