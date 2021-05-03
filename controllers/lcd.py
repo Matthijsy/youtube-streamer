@@ -16,12 +16,19 @@ class LCD(object):
         self.execute_command(bytearray([0xFE, 0x51]))
         self.execute_command(bytearray([0xFE, 0x46]))
 
-    def print(self, string, line=None):
-        print(string)
-        self.clear()
+    def clear_line(self, line):
+        # Move cursors and then backspace
+        cursor = 0x14 if line == 0 else 0x3C
+        self.execute_command(bytearray([0xFE, 0x45, cursor]))
+        for _ in range(20):
+            self.execute_command(bytearray([0xFE, 0x4E]))
 
+    def print(self, string, line=None):
         if line:
+            self.clear_line(line)
             self._print(string, line)
+        else:
+            self.clear()
 
         if len(string.split('\n')) > 1:
             parts = string.split('\n')
