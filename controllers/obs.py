@@ -108,7 +108,7 @@ class OBS:
             self._call(requests.SetVolume(name, res_volume, False))
             sleep(0.1)
 
-        return self.get_audio_volume(name) == 1
+        return self.get_audio_volume(name) > 0.95
 
     def audio_mute(self, name):
         res = self._call(requests.SetMute(name, True))

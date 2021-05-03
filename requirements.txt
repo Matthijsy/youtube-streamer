@@ -1,4 +1,4 @@
 obs-websocket-py
 python-dateutil
 pyserial
-pyaudio
+python-dotenv

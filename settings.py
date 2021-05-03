@@ -1,6 +1,12 @@
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 HOST = "localhost"
 PORT = 4444
-PASSWORD = "secret"
+PASSWORD = os.environ.get('OBS_PASSWORD')
 
 PRE_SERVICE_SCENE = 'Pre-Service'
 SERVICE_SCENE = 'Live'
