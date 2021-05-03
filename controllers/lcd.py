@@ -16,26 +16,27 @@ class LCD(object):
         self.execute_command(bytearray([0xFE, 0x51]))
         self.execute_command(bytearray([0xFE, 0x46]))
 
-    def print(self, string):
+    def print(self, string, line=None):
         print(string)
         self.clear()
 
-        if (len(string.split('\n')) > 1):
+        if line:
+            self._print(string, line)
+
+        if len(string.split('\n')) > 1:
             parts = string.split('\n')
-            self._print(parts[0])
-            self._newline()
-            self._print(parts[1])
+            self._print(parts[0], 0)
+            self._print(parts[1], 1)
         else:
-            self._print(string)
+            if len(string) > 20:
+                string = string[:20] + "\n" + string[20:]
+                self.print(string)
+            else:
+                self._print(string)
 
-    def _print(self, part):
-        if len(part) > 20:  # Length of 1 line
-            self.execute_command(part[0:20].encode())
+    def _print(self, part, line=0):
+        if line == 1:
             self._newline()
-            part = part[20:]
-
-        if len(part) > 20:  # Length still longer than 20
-            part = part[:17] + '...'
 
         self.execute_command(part.encode())
 

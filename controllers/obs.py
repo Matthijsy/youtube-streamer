@@ -14,18 +14,41 @@ class OBS:
         self.ws.disconnect()
 
     def start_stream(self):
-        if self._is_streaming():
+        if self.is_streaming():
             return True
 
         res = self._call(requests.StartStreaming())
         return res.status
 
     def stop_stream(self):
-        if not self._is_streaming():
+        if not self.is_streaming():
             return True
 
         res = self._call(requests.StopStreaming())
         return res.status
+
+    def get_stream_time(self):
+        res = self._call(requests.GetStreamingStatus())
+
+        if res.getStreaming():
+            return res.getStreamTimecode().split('.')[0]
+
+        return '00:00:00'
+
+    def get_stream_frame_drop(self):
+        res = self._call(requests.GetOutputInfo('simple_stream'))
+
+        return res.getOutputInfo().get('droppedFrames')
+
+    def get_stream_reconnecting(self):
+        res = self._call(requests.GetOutputInfo('simple_stream'))
+
+        return res.getOutputInfo().get('reconnecting')
+
+    def is_streaming(self):
+        res = self._call(requests.GetStreamingStatus())
+
+        return res.getStreaming()
 
     def set_scene(self, name):
         res = self._call(requests.SetCurrentScene(name))
@@ -77,11 +100,6 @@ class OBS:
         res = self._call(requests.SetMute(name, False))
 
         return res.status
-
-    def _is_streaming(self):
-        res = self._call(requests.GetStreamingStatus())
-
-        return res.getStreaming()
 
     def _call(self, req):
         return self.ws.call(req)

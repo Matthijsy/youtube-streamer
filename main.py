@@ -1,11 +1,13 @@
 import os
 import socket
+from threading import Thread
 from time import sleep
 
 from obswebsocket.exceptions import ConnectionFailure
 
 import settings
 from controllers import OBS, LCD, ACPI
+from controllers.stream_status import StreamStatus
 
 obs = OBS(settings.HOST, settings.PORT, settings.PASSWORD)
 acpi = ACPI()
@@ -34,7 +36,7 @@ def start_stream():
     if obs.set_scene(settings.PRE_SERVICE_SCENE) and \
             obs.audio_fade_in(settings.PRE_SERVICE_AUDIO) and \
             obs.start_stream():
-        lcd.print("Current->Pre-service \n Next->Live video")
+        lcd.print("Pre service image")
     else:
         lcd.print("Failed to start OBS")
         exit(1)
@@ -45,10 +47,16 @@ def start_live_video():
     if obs.audio_fade_out(settings.PRE_SERVICE_AUDIO) and \
             obs.set_scene(settings.SERVICE_SCENE) and \
             obs.audio_fade_in(settings.SERVICE_AUDIO):
-        lcd.print("Current->Live video\n Next->End ")
+        lcd.print("Streaming live video")
     else:
         lcd.print("Failed to change scene")
         exit(0)
+
+
+def show_stream_status():
+    while obs.is_streaming():
+        stream_time = obs.get_stream_time()
+        lcd.print(stream_time, 1)
 
 
 # Start OBS
@@ -57,6 +65,9 @@ connect_obs()
 # Wait for click, then go live with pre-service image
 acpi.wait_power_button()
 start_stream()
+
+# Start monitoring the stream
+StreamStatus(obs, lcd).start()
 
 # Wait for click then go live with live video
 acpi.wait_power_button()
