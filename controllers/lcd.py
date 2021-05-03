@@ -1,8 +1,11 @@
 import serial
 
+PREFIX = 0xFE
+LINE_START = [0x0, 0x28]
+LINE_END = [0x14, 0x32]
 
 class LCD(object):
-    PREFIX = 0xFE
+
 
     def __init__(self, device):
         self.device = device
@@ -13,19 +16,18 @@ class LCD(object):
         self.clear()
 
     def clear(self):
-        self.execute_command(bytearray([0xFE, 0x51]))
-        self.execute_command(bytearray([0xFE, 0x46]))
+        self.execute_command(bytearray([PREFIX, 0x51]))
+        self.execute_command(bytearray([PREFIX, 0x46]))
 
     def clear_line(self, line):
         # Move cursors and then backspace
-        cursor = 0x14 if line == 0 else 0x3C
-        self.execute_command(bytearray([0xFE, 0x45, cursor]))
+        self.execute_command(bytearray([0xFE, 0x45, LINE_END[line]]))
         for _ in range(20):
             self.execute_command(bytearray([0xFE, 0x4E]))
 
     def print(self, string, line=None):
         if line:
-            self._newline()
+            self._set_cursor_start(line)
             self.execute_command(self._padded_string(string).encode())
             print(string)
         else:
@@ -37,6 +39,7 @@ class LCD(object):
                 self.print(string[:20], 0)
                 self.print(string[20:], 1)
             else:
+                self._set_cursor_start(0)
                 self.execute_command(self._padded_string(string).encode())
                 print(string)
 
@@ -49,8 +52,8 @@ class LCD(object):
         else:
             return f"{string:20}"
 
-    def _newline(self):
-        self.execute_command(bytearray([0xFE, 0x45, 0x28]))  # Move to next line
+    def _set_cursor_start(self, line):
+        self.execute_command(bytearray([0xFE, 0x45, LINE_START[line]]))  # Move to next line
 
     def execute_command(self, payload):
         self.connection.write(payload)
