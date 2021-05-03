@@ -34,7 +34,7 @@ def connect_obs():
 def start_stream():
     lcd.print("Starting stream...\n ")
     if obs.set_scene(settings.PRE_SERVICE_SCENE) and \
-            obs.audio_fade_in(settings.PRE_SERVICE_AUDIO) and \
+            obs.audio_fade_in(settings.PRE_SERVICE_AUDIO, 0) and \
             obs.start_stream():
         lcd.print("Pre service image")
     else:
