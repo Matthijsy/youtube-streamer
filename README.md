@@ -16,3 +16,7 @@ Small project to automate the streaming to youtube. It uses the OBS websocket to
 This project automatically starts OBS on startup, then the main script is called. This will try to interact with OBS and start the stream. YouTube should be configured to automatically go live when it receives signal. 
 
 In our case we have configured 2 scenes in OBS, one for pre-service and one live. The pre-service scene only broadcasts static audio and a image. Then when the button is clicked OBS will switch to the live video input and stream the real service. After 2 consecutive pushes on the power button again the system stops the stream and shutsdown.
+
+
+## Remote control
+It is possible to control the system via teamviewer. In order to do that install `xserver-xorg-video-dummy` and place the `localfiles/xorg.conf` in `/etc/X11/xorg.conf`. Now install teamviewer and you can access it remotely. Disadvantage of this is that the local output won't work after this.
