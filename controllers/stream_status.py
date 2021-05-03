@@ -23,11 +23,11 @@ class StreamStatus(Thread):
                 os.system('echo -en "\007" > /dev/tty5')
 
             if not reconnecting:
-                status_str = f"{stream_time:<8} {dropped_frames:>10}"
+                status_str = f" {stream_time:<8} {dropped_frames:>10}"
             else:
                 status_str = "Reconnecting..."
             self.lcd.print(status_str, line=1)
-            sleep(1)
+            sleep(0.5)
         self.lcd.print("", line=1)
         print("Stream stopped, monitor stopped")
 
@@ -41,7 +41,7 @@ class StreamStatus(Thread):
     def _calculate_df(self, dropped_frames):
         df_size = len(self._dropped_frames)
         # If we have more than a half a minute of information
-        if df_size > 30:
+        if df_size > 60:
             self._dropped_frames.pop(0)  # Pop the oldest item
 
         # Write the diff to the end of the list
