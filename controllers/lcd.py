@@ -4,8 +4,8 @@ PREFIX = 0xFE
 LINE_START = [0x0, 0x28]
 LINE_END = [0x14, 0x32]
 
-class LCD(object):
 
+class LCD(object):
 
     def __init__(self, device):
         self.device = device

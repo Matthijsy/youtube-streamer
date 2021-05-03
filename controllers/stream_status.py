@@ -13,6 +13,7 @@ class StreamStatus(Thread):
         self._last_df_value = 0
 
     def run(self):
+        print(self.obs.is_streaming())
         while self.obs.is_streaming():
             stream_time = self.obs.get_stream_time()
             # dropped_frames = self.obs.get_stream_frame_drop()

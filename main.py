@@ -17,14 +17,14 @@ lcd.configure()
 
 def connect_obs():
     lcd.print("Connecting to OBS...")
-    for i in range(3):
+    for i in range(6):
         try:
             obs.connect()
             obs.audio_fade_out(settings.SERVICE_AUDIO, 0)
             lcd.print("OBS started..\n Press to go live")
             return True
         except ConnectionFailure as e:
-            sleep(10)
+            sleep(5)
             lcd.print(f"Connecting to OBS...\n Retry {i}")
     else:
         lcd.print("Can't connect to OBS")
@@ -54,6 +54,7 @@ def start_live_video():
 
 
 # Start OBS
+sleep(5)
 connect_obs()
 
 # Wait for click, then go live with pre-service image
