@@ -24,30 +24,30 @@ class LCD(object):
             self.execute_command(bytearray([0xFE, 0x4E]))
 
     def print(self, string, line=None):
-        print(string)
-
         if line:
-            self.clear_line(line)
-            self._print(string, line)
-        else:
-            self.clear()
-
-        if len(string.split('\n')) > 1:
-            parts = string.split('\n')
-            self._print(parts[0], 0)
-            self._print(parts[1], 1)
-        else:
-            if len(string) > 20:
-                string = string[:20] + "\n" + string[20:]
-                self.print(string)
-            else:
-                self._print(string)
-
-    def _print(self, part, line=0):
-        if line == 1:
             self._newline()
+            self.execute_command(self._padded_string(string).encode())
+            print(string)
+        else:
+            if len(string.split('\n')) > 1:
+                parts = string.split('\n')
+                self.print(parts[0], 0)
+                self.print(parts[1], 1)
+            elif len(string) > 20:
+                self.print(string[:20], 0)
+                self.print(string[20:], 1)
+            else:
+                self.execute_command(self._padded_string(string).encode())
+                print(string)
 
-        self.execute_command(part.encode())
+    def _padded_string(self, string):
+        # Make sure the string is exactly 20 characters, to fill the screen
+        if len(string) > 20:
+            return string[:17] + "..."
+        elif len(string) == 20:
+            return string
+        else:
+            return f"{string:20}"
 
     def _newline(self):
         self.execute_command(bytearray([0xFE, 0x45, 0x28]))  # Move to next line
