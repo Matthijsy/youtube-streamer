@@ -13,6 +13,7 @@ class StreamStatus(Thread):
         self._last_df_value = 0
 
     def run(self):
+        print("Starting stream monitor")
         while self.obs.is_streaming():
             stream_time = self.obs.get_stream_time()
             dropped_frames = self.obs.get_stream_frame_drop()
@@ -22,12 +23,13 @@ class StreamStatus(Thread):
                 os.system('echo -en "\007" > /dev/tty5')
 
             if not reconnecting:
-                status_str = f"{stream_time:<8} {dropped_frames:>11}"
+                status_str = f"{stream_time:<8} {dropped_frames:>10}"
             else:
                 status_str = "Reconnecting..."
-            self.lcd.print(f" {stream_time}", line=1)
+            self.lcd.print(status_str, line=1)
             sleep(1)
         self.lcd.print("", line=1)
+        print("Stream stopped, monitor stopped")
 
     def _check_status(self, dropped_frames, reconnecting):
         if reconnecting:
