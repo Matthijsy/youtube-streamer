@@ -53,12 +53,6 @@ def start_live_video():
         exit(0)
 
 
-def show_stream_status():
-    while obs.is_streaming():
-        stream_time = obs.get_stream_time()
-        lcd.print(stream_time, 1)
-
-
 # Start OBS
 connect_obs()
 

@@ -24,6 +24,8 @@ class LCD(object):
             self.execute_command(bytearray([0xFE, 0x4E]))
 
     def print(self, string, line=None):
+        print(string)
+
         if line:
             self.clear_line(line)
             self._print(string, line)

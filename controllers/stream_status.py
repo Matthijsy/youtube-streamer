@@ -25,7 +25,7 @@ class StreamStatus(Thread):
             #     status_str = f"{stream_time:<8} {dropped_frames:>11}"
             # else:
             #     status_str = "Reconnecting..."
-            self.lcd.print(stream_time, line=1)
+            self.lcd.print(f" {stream_time}", line=1)
             sleep(1)
 
     def _check_status(self, dropped_frames, reconnecting):
