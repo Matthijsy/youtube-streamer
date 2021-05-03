@@ -68,7 +68,7 @@ acpi.wait_power_button()
 start_stream()
 
 # Check for recording
-if os.system(f'lsusb | grep "{settings.USB_DEVICE}"'):
+if os.system(f'lsusb | grep "{settings.USB_DEVICE}"') == 0:
     should_record = True
     start_record()
 
