@@ -1,2 +1,1 @@
 streamer ALL=(ALL) NOPASSWD: /sbin/poweroff, /sbin/reboot, /sbin/shutdown
-streamer ALL=(ALL) NOPASSWD: /usr/bin/beep

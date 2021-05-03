@@ -8,7 +8,6 @@ Small project to automate the streaming to youtube. It uses the OBS websocket to
 1. Install drivers for the video capture card ([Blackmagic](https://www.blackmagicdesign.com/support/family/capture-and-playback) in my case)
 1. Install [obs-websockets](https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/)
 1. Install [https://wiki.debian.org/acpid](https://wiki.debian.org/acpid) (used for interacting with the power button)
-1. Install [Beep](https://packages.debian.org/unstable/beep) (used for alarm when no connection)
 1. Copy the files of `localfiles/autostart` to `~/.config/autostart` on the machine.
 1. Add the lines in `localfiles/sudoers.txt` to the sudoers file using `sudo visudo`
 1. Edit `/etc/systemd/logind.conf` and add the line `HandlePowerKey=ignore`

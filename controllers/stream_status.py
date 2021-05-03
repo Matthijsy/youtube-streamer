@@ -19,7 +19,7 @@ class StreamStatus(Thread):
             reconnecting = self.obs.get_stream_reconnecting()
 
             if not self._check_status(dropped_frames, reconnecting):
-                os.system("sudo env -i beep")
+                os.system('echo -en "\007" > /dev/tty5')
 
             if not reconnecting:
                 status_str = f"{stream_time:<8} {dropped_frames:>11}"
