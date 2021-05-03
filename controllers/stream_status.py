@@ -14,6 +14,9 @@ class StreamStatus(Thread):
 
     def run(self):
         print("Starting stream monitor")
+        while not self.obs.is_streaming():
+            sleep(1)
+        print("Stream monitor active")
         while self.obs.is_streaming():
             stream_time = self.obs.get_stream_time()
             dropped_frames = self.obs.get_stream_frame_drop()
