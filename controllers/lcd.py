@@ -13,6 +13,9 @@ class LCD(object):
 
     def configure(self):
         self.connection = serial.Serial(self.device, 9600, timeout=5)
+        self.clear()
+
+    def clear(self):
         self.print("")
 
     def print(self, string, line=None):

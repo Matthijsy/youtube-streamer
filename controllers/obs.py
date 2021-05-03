@@ -7,6 +7,10 @@ class OBS:
     def __init__(self, host, port, password):
         self.ws = obsws(host, port, password)
 
+    @property
+    def connected(self):
+        return self.ws.ws and self.ws.ws.connected
+
     def connect(self):
         self.ws.connect()
 
@@ -46,6 +50,9 @@ class OBS:
         return res.getOutputInfo().get('reconnecting')
 
     def is_streaming(self):
+        if not self.connected:
+            return False
+
         res = self._call(requests.GetStreamingStatus())
 
         return res.getStreaming()
