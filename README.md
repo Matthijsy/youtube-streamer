@@ -11,6 +11,7 @@ Small project to automate the streaming to youtube. It uses the OBS websocket to
 1. Copy the files of `localfiles/autostart` to `~/.config/autostart` on the machine.
 1. Add the lines in `localfiles/sudoers.txt` to the sudoers file using `sudo visudo`
 1. Edit `/etc/systemd/logind.conf` and add the line `HandlePowerKey=ignore`
+1. Add `load-module module-detect` to `/etc/pulse/default.pa`
 
 ## Quick overview
 This project automatically starts OBS on startup, then the main script is called. This will try to interact with OBS and start the stream. YouTube should be configured to automatically go live when it receives signal. 

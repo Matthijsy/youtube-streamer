@@ -101,7 +101,7 @@ class OBS:
         if transition_time > 0:
             steps = (1 - volume) / transition_time / 10
         else:
-            steps = volume
+            steps = (1 - volume)
 
         for i in range((transition_time * 10) + 1):
             res_volume = volume + ((i + 1) * steps)
