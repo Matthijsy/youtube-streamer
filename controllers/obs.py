@@ -50,6 +50,25 @@ class OBS:
 
         return res.getStreaming()
 
+    def start_record(self):
+        if self.is_recording():
+            return True
+
+        res = self._call(requests.StartRecording())
+        return res.status
+
+    def stop_record(self):
+        if not self.is_recording():
+            return True
+
+        res = self._call(requests.StopRecording())
+        return res.status
+
+    def is_recording(self):
+        res = self._call(requests.GetStreamingStatus())
+
+        return res.GetRecording()
+
     def set_scene(self, name):
         res = self._call(requests.SetCurrentScene(name))
 

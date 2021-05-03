@@ -1,6 +1,5 @@
 import os
 import socket
-from threading import Thread
 from time import sleep
 
 from obswebsocket.exceptions import ConnectionFailure
@@ -13,6 +12,7 @@ obs = OBS(settings.HOST, settings.PORT, settings.PASSWORD)
 acpi = ACPI()
 lcd = LCD('/dev/ttyUSB0')
 lcd.configure()
+should_record = False
 
 
 def connect_obs():
@@ -42,6 +42,13 @@ def start_stream():
         exit(1)
 
 
+def start_record():
+    lcd.print("Starting recording...\n ")
+    if not obs.start_record():
+        lcd.print("Failed to start recoring")
+        exit(1)
+
+
 def start_live_video():
     lcd.print("Starting live video")
     if obs.audio_fade_out(settings.PRE_SERVICE_AUDIO) and \
@@ -59,6 +66,11 @@ connect_obs()
 # Wait for click, then go live with pre-service image
 acpi.wait_power_button()
 start_stream()
+
+# Check for recording
+if os.system(f'lsusb | grep "{settings.USB_DEVICE}"'):
+    should_record = True
+    start_record()
 
 # Start monitoring the stream
 StreamStatus(obs, lcd).start()
@@ -81,8 +93,12 @@ if not obs.stop_stream():
     lcd.print("Failed to stop stream")
     exit(0)
 
+if should_record and not obs.stop_record():
+    lcd.print("Failed to stop recording")
+    exit(0)
+
 lcd.print("Shutdown..")
 sleep(2)
 obs.disconnect()
 lcd.clear()
-#os.system("sudo shutdown now")
+# os.system("sudo shutdown now")
