@@ -27,12 +27,12 @@ def connect_obs():
             sleep(5)
             lcd.print(f"Connecting to OBS...\n Retry {i}")
     else:
-        lcd.print("Can't connect to OBS")
+        lcd.print("Can't connect to OBS\n ")
         exit(0)
 
 
 def start_stream():
-    lcd.print("Starting stream...")
+    lcd.print("Starting stream...\n ")
     if obs.set_scene(settings.PRE_SERVICE_SCENE) and \
             obs.audio_fade_in(settings.PRE_SERVICE_AUDIO) and \
             obs.start_stream():
@@ -54,7 +54,6 @@ def start_live_video():
 
 
 # Start OBS
-sleep(5)
 connect_obs()
 
 # Wait for click, then go live with pre-service image
@@ -72,11 +71,11 @@ start_live_video()
 while True:
     acpi.wait_power_button()
     try:
-        lcd.print("Want to stop stream?\nPress to confirm")
+        lcd.print("Press to confirm")
         acpi.wait_power_button(timeout=10)
         break
     except socket.timeout:
-        lcd.print("Current->Live video\n Next->End ")
+        lcd.print("Streaming live video")
 
 if not obs.stop_stream():
     lcd.print("Failed to stop stream")
@@ -84,4 +83,4 @@ if not obs.stop_stream():
 
 obs.disconnect()
 lcd.clear()
-os.system("sudo shutdown now")
+#os.system("sudo shutdown now")
