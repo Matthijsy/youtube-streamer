@@ -47,13 +47,17 @@ def connect_obs():
 
 def start_stream():
     lcd.print("Starting stream...\n ")
-    if obs.set_scene(settings.PRE_SERVICE_SCENE) and \
-            obs.audio_fade_in(settings.PRE_SERVICE_AUDIO, 0) and \
-            obs.start_stream():
-        lcd.print("Pre service image")
-    else:
-        lcd.print("Failed to start OBS")
-        exit(1)
+    if not obs.set_scene(settings.PRE_SERVICE_SCENE):
+        lcd.print("Failed to change scene")
+        exit(0)
+    if not obs.audio_fade_in(settings.PRE_SERVICE_AUDIO, 0):
+        lcd.print("Failed to fade in audio")
+        exit(0)
+    if not obs.start_stream():
+        lcd.print("Failed to start stream")
+        exit(0)
+
+    lcd.print("Pre service image")
 
 
 def start_record():
@@ -65,13 +69,17 @@ def start_record():
 
 def start_live_video():
     lcd.print("Starting live video")
-    if obs.audio_fade_out(settings.PRE_SERVICE_AUDIO) and \
-            obs.set_scene(settings.SERVICE_SCENE) and \
-            obs.audio_fade_in(settings.SERVICE_AUDIO):
-        lcd.print("Streaming live video")
-    else:
-        lcd.print("Failed to change scene")
+    if not obs.audio_fade_out(settings.PRE_SERVICE_AUDIO):
+        lcd.print("Failed fade out audio")
         exit(0)
+    if not obs.set_scene(settings.SERVICE_SCENE):
+        lcd.print("Failed change scene")
+        exit(0)
+    if not obs.audio_fade_in(settings.SERVICE_AUDIO):
+        lcd.print("Failed fade in audio")
+        exit(0)
+
+    lcd.print("Streaming live video")
 
 
 # Wait for network connetion
