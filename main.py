@@ -14,12 +14,19 @@ lcd = LCD('/dev/ttyUSB0')
 lcd.configure()
 should_record = False
 
+
 def init():
     # Pull the git repo, to have new changes
-    os.system(f'cd {settings.PROJECT_DIR} && git pull')
+    if os.system(f'cd {settings.PROJECT_DIR} && git pull') > 0:
+        print("Git pull failed...")
 
     # Copy the needed OBS files
-    os.system(f'cp {settings.PROJECT_DIR}/obs_files/* {settings.OBS_DIR}')
+    if os.system(f'cp {settings.PROJECT_DIR}/obs_files/* {settings.OBS_DIR}') > 0:
+        print("Updating OBS files failed")
+
+    # If there are OBS files on the plugged in USB devices, overwrite the files
+    if os.system(f'cp {settings.USB_MOUNT_LOCATION}/**/obs_studio {settings.OBS_DIR} -r'):
+        print('Copying from USB device failed')
 
 
 def connect_obs():
@@ -67,6 +74,9 @@ def start_live_video():
         exit(0)
 
 
+# Init some files
+init()
+
 # Start OBS
 connect_obs()
 
@@ -75,9 +85,9 @@ acpi.wait_power_button()
 start_stream()
 
 # Check for recording
-if os.system(f'lsusb | grep "{settings.USB_DEVICE}"') == 0:
-    should_record = True
-    start_record()
+# if os.system(f'lsusb | grep "{settings.USB_DEVICE}"') == 0:
+#     should_record = True
+#     start_record()
 
 # Start monitoring the stream
 StreamStatus(obs, lcd).start()

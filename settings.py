@@ -14,6 +14,6 @@ SERVICE_SCENE = 'Live'
 PRE_SERVICE_AUDIO = 'Intro media'
 SERVICE_AUDIO = 'Audio Input'
 
-USB_DEVICE = 'Bus 003 Device 003'  # The name in the lsusb command
 PROJECT_DIR = '~/streamer'  # The directory where this project lives
 OBS_DIR = '~/obs'  # The directory where OBS expects its static files
+USB_MOUNT_LOCATION = '/media/streamer/'  # The location where USB devices get auto-mounted
