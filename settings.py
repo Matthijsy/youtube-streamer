@@ -16,4 +16,4 @@ SERVICE_AUDIO = 'Audio Input'
 
 PROJECT_DIR = '~/streamer'  # The directory where this project lives
 OBS_DIR = '~/obs'  # The directory where OBS expects its static files
-USB_MOUNT_LOCATION = '/media/streamer/'  # The location where USB devices get auto-mounted
+USB_MOUNT_LOCATION = '/media/streamer'  # The location where USB devices get auto-mounted

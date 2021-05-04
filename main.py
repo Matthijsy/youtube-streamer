@@ -25,7 +25,7 @@ def init():
         print("Updating OBS files failed")
 
     # If there are OBS files on the plugged in USB devices, overwrite the files
-    if os.system(f'cp {settings.USB_MOUNT_LOCATION}/**/obs_studio {settings.OBS_DIR} -r'):
+    if os.system(f'cp {settings.USB_MOUNT_LOCATION}/**/obs_studio/* {settings.OBS_DIR}'):
         print('Copying from USB device failed')
 
 
@@ -73,6 +73,11 @@ def start_live_video():
         lcd.print("Failed to change scene")
         exit(0)
 
+
+# Wait for network connetion
+lcd.print("Waiting for network")
+while os.system('ping  -w 1 8.8.8.8') > 0:
+    sleep(1)
 
 # Init some files
 init()
