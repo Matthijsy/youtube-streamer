@@ -14,6 +14,13 @@ lcd = LCD('/dev/ttyUSB0')
 lcd.configure()
 should_record = False
 
+def init():
+    # Pull the git repo, to have new changes
+    os.system(f'cd {settings.PROJECT_DIR} && git pull')
+
+    # Copy the needed OBS files
+    os.system(f'cp {settings.PROJECT_DIR}/obs_files/* {settings.OBS_DIR}')
+
 
 def connect_obs():
     lcd.print("Connecting to OBS...")
