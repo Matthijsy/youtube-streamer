@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Streamer
-Exec=bash /home/streamer/Documents/streamer/localfiles/setup_screen.sh
+Exec=python3 /home/streamer/Documents/streamer/main.py
 Hidden=false
 NoDisplay=false
 Terminal=true
