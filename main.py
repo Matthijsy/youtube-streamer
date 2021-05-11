@@ -12,8 +12,6 @@ obs = OBS(settings.HOST, settings.PORT, settings.PASSWORD)
 acpi = ACPI()
 lcd = LCD('/dev/ttyUSB0')
 lcd.configure()
-should_record = False
-
 
 def init():
     # Pull the git repo, to have new changes
@@ -48,13 +46,13 @@ def connect_obs():
 def start_stream():
     lcd.print("Starting stream...\n ")
     if not obs.set_scene(settings.PRE_SERVICE_SCENE):
-        lcd.print("Failed to change scene")
+        lcd.print("Failed change scene")
         exit(0)
     if not obs.audio_fade_in(settings.PRE_SERVICE_AUDIO, 0):
-        lcd.print("Failed to fade in audio")
+        lcd.print("Failed fade in audio")
         exit(0)
     if not obs.start_stream():
-        lcd.print("Failed to start stream")
+        lcd.print("Failed start stream")
         exit(0)
 
     lcd.print("Pre service image")
@@ -97,11 +95,6 @@ connect_obs()
 acpi.wait_power_button()
 start_stream()
 
-# Check for recording
-# if os.system(f'lsusb | grep "{settings.USB_DEVICE}"') == 0:
-#     should_record = True
-#     start_record()
-
 # Start monitoring the stream
 StreamStatus(obs, lcd).start()
 
@@ -123,12 +116,8 @@ if not obs.stop_stream():
     lcd.print("Failed to stop stream")
     exit(0)
 
-if should_record and not obs.stop_record():
-    lcd.print("Failed to stop recording")
-    exit(0)
-
 lcd.print("Shutdown..")
 sleep(2)
 obs.disconnect()
 lcd.clear()
-# os.system("sudo shutdown now")
+os.system("sudo shutdown now")
