@@ -13,6 +13,18 @@ class OBS:
     def disconnect(self):
         self.ws.disconnect()
 
+    def set_tmp_stream_key(self, key):
+        res = self._call(requests.SetStreamSettings(type="rtmp_common",
+                                                    settings={"key": key},
+                                                    save=False))
+
+        return res.status
+
+    def get_stream_key(self):
+        res = self._call(requests.GetStreamSettings())
+
+        return res.getSettings()['key']
+
     def start_stream(self):
         if self.is_streaming():
             return True

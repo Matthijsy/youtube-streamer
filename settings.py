@@ -9,6 +9,7 @@ PORT = 4444
 PASSWORD = os.environ.get('OBS_PASSWORD')
 
 DEBUG_MODE = os.environ.get('DEBUG_MODE', False)
+DEBUG_STREAM_KEY = os.environ.get('DEBUG_STREAM_KEY')
 
 PRE_SERVICE_SCENE = 'Pre-Service'
 SERVICE_SCENE = 'Live'

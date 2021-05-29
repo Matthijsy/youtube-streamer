@@ -96,6 +96,15 @@ init()
 # Start OBS
 connect_obs()
 
+# Check if DEBUG mode
+if settings.DEBUG_MODE:
+    lcd.print("WARN: DEBUG MODE")
+    obs.set_tmp_stream_key(settings.DEBUG_STREAM_KEY)
+
+# Check if the debug stream key is not present on real streaming
+if not settings.DEBUG_MODE and obs.get_stream_key() == settings.DEBUG_STREAM_KEY:
+    lcd.print("Invalid streamkey")
+
 # Wait for click, then go live with pre-service image
 acpi.wait_power_button()
 start_stream()
