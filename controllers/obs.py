@@ -74,6 +74,22 @@ class OBS:
 
         return res.status
 
+    def set_preview_scene(self, name):
+        res = self._call(requests.SetPreviewScene(name))
+
+        return res.status
+
+    def transition_to_program(self, transition_name=None, transition_duration=None):
+        transition = {"name": transition_name, "duration": transition_duration}
+        res = self._call(requests.TransitionToProgram(with_transition=transition))
+
+        return res.status
+
+    def studio_mode(self):
+        res = self._call(requests.EnableStudioMode())
+
+        return res.status
+
     def get_audio_volume(self, name):
         res = self._call(requests.GetVolume(name))
 

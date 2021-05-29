@@ -1,5 +1,7 @@
 import socket
 
+import settings
+
 
 class ACPI:
     """
@@ -13,9 +15,18 @@ class ACPI:
         self.s.connect('/var/run/acpid.socket')
 
     def wait_power_button(self, timeout=None):
+        if settings.DEBUG_MODE:
+            self._wait_enter()
+        else:
+            self.wait_power_button(timeout)
+
+    def _wait_button(self, timeout):
         self.s.settimeout(timeout)
         while True:
             event = self.s.recv(4096).decode('utf-8').split(' ')
 
             if event[0] == 'button/power' and event[1] == 'PBTN':
                 return True
+
+    def _wait_enter(self):
+        input("Press enter to continue..")

@@ -33,6 +33,7 @@ def connect_obs():
         try:
             obs.connect()
             obs.audio_fade_out(settings.SERVICE_AUDIO, 0)
+            obs.studio_mode()
             lcd.print("OBS started..\n Press to go live")
             return True
         except ConnectionFailure as e:
@@ -61,7 +62,7 @@ def start_stream():
 def start_record():
     lcd.print("Starting recording...\n ")
     if not obs.start_record():
-        lcd.print("Failed to start recoring")
+        lcd.print("Failed to start recording")
         exit(1)
 
 
@@ -70,8 +71,11 @@ def start_live_video():
     if not obs.audio_fade_out(settings.PRE_SERVICE_AUDIO):
         lcd.print("Failed fade out audio")
         exit(0)
-    if not obs.set_scene(settings.SERVICE_SCENE):
+    if not obs.set_preview_scene(settings.SERVICE_SCENE):
         lcd.print("Failed change scene")
+        exit(0)
+    if not obs.transition_to_program(transition_name="fade", transition_duration=settings.TRANSITION_DURATION):
+        lcd.print("Failed to transition")
         exit(0)
     if not obs.audio_fade_in(settings.SERVICE_AUDIO):
         lcd.print("Failed fade in audio")
@@ -111,6 +115,10 @@ while True:
         break
     except socket.timeout:
         lcd.print("Streaming live video")
+
+if not obs.transition_to_program(transition_name="Fade to black", transition_duration=settings.TRANSITION_DURATION):
+    lcd.print("Failed fade black")
+    exit(0)
 
 if not obs.stop_stream():
     lcd.print("Failed to stop stream")
