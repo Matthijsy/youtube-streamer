@@ -13,6 +13,7 @@ acpi = ACPI()
 lcd = LCD('/dev/ttyUSB0')
 lcd.configure()
 
+
 def init():
     # Pull the git repo, to have new changes
     if os.system(f'cd {settings.PROJECT_DIR} && git pull') > 0:
@@ -74,7 +75,7 @@ def start_live_video():
     if not obs.set_preview_scene(settings.SERVICE_SCENE):
         lcd.print("Failed change scene")
         exit(0)
-    if not obs.transition_to_program(transition_name="fade", transition_duration=settings.TRANSITION_DURATION):
+    if not obs.transition_to_program(transition_name="Fade", transition_duration=settings.TRANSITION_DURATION):
         lcd.print("Failed to transition")
         exit(0)
     if not obs.audio_fade_in(settings.SERVICE_AUDIO):
@@ -116,9 +117,10 @@ while True:
     except socket.timeout:
         lcd.print("Streaming live video")
 
-if not obs.transition_to_program(transition_name="Fade to black", transition_duration=settings.TRANSITION_DURATION):
-    lcd.print("Failed fade black")
-    exit(0)
+# TODO create fade to black
+# if not obs.transition_to_program(transition_name="Fade to black", transition_duration=settings.TRANSITION_DURATION):
+#     lcd.print("Failed fade black")
+#     exit(0)
 
 if not obs.stop_stream():
     lcd.print("Failed to stop stream")
@@ -128,4 +130,6 @@ lcd.print("Shutdown..")
 sleep(2)
 obs.disconnect()
 lcd.clear()
-os.system("sudo shutdown now")
+
+if not settings.DEBUG_MODE:
+    os.system("sudo shutdown now")
