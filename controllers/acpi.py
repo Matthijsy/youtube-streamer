@@ -18,7 +18,7 @@ class ACPI:
         if settings.DEBUG_MODE:
             self._wait_enter()
         else:
-            self.wait_power_button(timeout)
+            self._wait_button(timeout)
 
     def _wait_button(self, timeout):
         self.s.settimeout(timeout)
