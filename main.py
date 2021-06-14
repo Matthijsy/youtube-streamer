@@ -126,10 +126,13 @@ while True:
     except socket.timeout:
         lcd.print("Streaming live video")
 
-# TODO create fade to black
-# if not obs.transition_to_program(transition_name="Fade to black", transition_duration=settings.TRANSITION_DURATION):
-#     lcd.print("Failed fade black")
-#     exit(0)
+if not obs.set_preview_scene(settings.BLACK_SCENE):
+    lcd.print("Failed change scene")
+    exit(0)
+
+if not obs.transition_to_program(transition_name="Fade", transition_duration=settings.TRANSITION_DURATION):
+    lcd.print("Failed fade black")
+    exit(0)
 
 if not obs.stop_stream():
     lcd.print("Failed to stop stream")

@@ -13,6 +13,7 @@ DEBUG_STREAM_KEY = os.environ.get('DEBUG_STREAM_KEY')
 
 PRE_SERVICE_SCENE = 'Pre-Service'
 SERVICE_SCENE = 'Live'
+BLACK_SCENE = 'Black'
 
 PRE_SERVICE_AUDIO = 'Intro media'
 SERVICE_AUDIO = 'Audio Input'
