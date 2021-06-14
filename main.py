@@ -134,6 +134,9 @@ if not obs.transition_to_program(transition_name="Fade", transition_duration=set
     lcd.print("Failed fade black")
     exit(0)
 
+# Wait a few seconds to give youtube the time to show the fade to black
+sleep(10)
+
 if not obs.stop_stream():
     lcd.print("Failed to stop stream")
     exit(0)
