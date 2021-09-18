@@ -93,7 +93,6 @@ lcd.print("Waiting for network")
 while os.system('ping  -w 1 8.8.8.8') > 0:
     sleep(1)
     
-exit(0)
 
 # Init some files
 init()
