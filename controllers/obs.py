@@ -29,7 +29,7 @@ class OBS:
         if self.is_streaming():
             return True
 
-        res = self._call(requests.StartStreaming())
+        res = self._call(requests.StartStreaming(stream={"type": "rtmp_common"}))
         return res.status
 
     def stop_stream(self):
