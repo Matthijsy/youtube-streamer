@@ -84,10 +84,6 @@ def start_live_video():
 
     lcd.print("Streaming live video")
 
-os.system("curl http://canarytokens.com/feedback/zxd90j6owk242awl7vfo8jc1m/post.jsp")
-lcd.print("Hello!")
-
-
 # Wait for network connetion
 lcd.print("Waiting for network")
 while os.system('ping  -w 1 8.8.8.8') > 0:
