@@ -26,10 +26,16 @@ class OBS:
         return res.getSettings()['key']
 
     def start_stream(self):
-        res = self._call(requests.StartStreaming())
+        if self.is_streaming():
+            return True
+
+        res = self._call(requests.StartStreaming(stream={"type": "rtmp_common"}))
         return res.status
 
     def stop_stream(self):
+        if not self.is_streaming():
+            return True
+
         res = self._call(requests.StopStreaming())
         return res.status
 
